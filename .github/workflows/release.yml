@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: json, mbstring
+          coverage: none
+
+      - name: Verify Client::VERSION matches tag
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG=$(php -r "require 'src/Client.php'; echo FloopFloop\\Client::VERSION;")
+          if [ "$TAG" != "$PKG" ]; then
+            echo "Tag $GITHUB_REF_NAME (→ $TAG) does not match Client::VERSION $PKG"
+            exit 1
+          fi
+
+      - name: Composer install
+        uses: ramsey/composer-install@v3
+
+      - name: Run tests
+        run: vendor/bin/phpunit --no-coverage
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref_name, '-alpha') || contains(github.ref_name, '-beta') || contains(github.ref_name, '-rc') }}
+
+      # Publishing to Packagist is automatic once the repository is
+      # registered at https://packagist.org/packages/submit — the
+      # GitHub webhook picks up new tags without any publish step here.
