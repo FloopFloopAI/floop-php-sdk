@@ -1,9 +1,10 @@
 # FloopFloop PHP SDK
 
-[![CI](https://github.com/FloopFloopAI/floop-php-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/FloopFloopAI/floop-php-sdk/actions/workflows/ci.yml)
-[![Packagist Version](https://img.shields.io/packagist/v/floopfloop/sdk?color=blue)](https://packagist.org/packages/floopfloop/sdk)
-[![PHP Version](https://img.shields.io/packagist/php-v/floopfloop/sdk)](https://packagist.org/packages/floopfloop/sdk)
-[![License](https://img.shields.io/packagist/l/floopfloop/sdk)](LICENSE)
+[![Packagist Version](https://img.shields.io/packagist/v/floopfloop/sdk?logo=packagist&logoColor=white)](https://packagist.org/packages/floopfloop/sdk)
+[![Packagist Downloads](https://img.shields.io/packagist/dm/floopfloop/sdk?logo=packagist&logoColor=white)](https://packagist.org/packages/floopfloop/sdk)
+[![CI](https://img.shields.io/github/actions/workflow/status/FloopFloopAI/floop-php-sdk/ci.yml?branch=main&logo=github&label=ci)](https://github.com/FloopFloopAI/floop-php-sdk/actions/workflows/ci.yml)
+[![PHP Version](https://img.shields.io/packagist/php-v/floopfloop/sdk?logo=php&logoColor=white)](https://packagist.org/packages/floopfloop/sdk)
+[![License: MIT](https://img.shields.io/packagist/l/floopfloop/sdk)](./LICENSE)
 
 Official PHP SDK for the [FloopFloop](https://www.floopfloop.com) API — build, refine, and manage FloopFloop projects from any PHP codebase.
 
