@@ -55,6 +55,8 @@ Grab an API key at [www.floopfloop.com/account/api-keys](https://www.floopfloop.
 
 Every method returns an associative array shaped like the API response. Non-2xx responses throw `FloopFloop\Error`.
 
+For longer end-to-end patterns — streaming a build, refining mid-deploy, attachment uploads, key rotation, retry-with-backoff — see the [cookbook](docs/recipes.md).
+
 ## Streaming status
 
 ```php
