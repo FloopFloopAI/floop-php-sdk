@@ -76,8 +76,14 @@ final class StreamClient implements HttpClient
             throw new Error('NETWORK_ERROR', "could not reach {$url}: {$msg}");
         }
 
-        /** @var list<string> $rawHeaders */
-        $rawHeaders = $GLOBALS['http_response_header'] ?? [];
+        // `$http_response_header` is auto-populated by the http stream
+        // wrapper into the LOCAL scope of the function that calls
+        // file_get_contents — NOT the global scope. Using
+        // `$GLOBALS['http_response_header']` here would never find it,
+        // and every successful response would throw NETWORK_ERROR.
+        // Regression covered by RealHttpClientTest.
+        /** @var list<string>|null $http_response_header */
+        $rawHeaders = $http_response_header ?? [];
         if ($rawHeaders === []) {
             throw new Error('NETWORK_ERROR', "no response headers captured from {$url}");
         }
