@@ -6,7 +6,7 @@ namespace FloopFloop;
 
 final class Projects
 {
-    public const TERMINAL_STATUSES = ['live', 'failed', 'cancelled'];
+    public const TERMINAL_STATUSES = ['live', 'failed', 'cancelled', 'archived'];
 
     public function __construct(private readonly Client $client)
     {
@@ -161,7 +161,11 @@ final class Projects
             }
 
             $status = (string) ($event['status'] ?? '');
-            if ($status === 'live') {
+            // `live` and `archived` are both terminal-success states. The
+            // Node, Python, Swift, and Kotlin SDKs already group them; PHP
+            // previously only matched `live`, so an archived project mid-
+            // stream caused max_wait timeouts instead of clean returns.
+            if ($status === 'live' || $status === 'archived') {
                 return $event;
             }
             if ($status === 'failed') {
