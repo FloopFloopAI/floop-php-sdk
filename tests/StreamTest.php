@@ -64,6 +64,18 @@ final class StreamTest extends TestCase
         }
     }
 
+    public function test_archived_terminates_cleanly_like_live(): void
+    {
+        // Pre-fix this looped until max_wait because the case-statement
+        // only matched live / failed / cancelled. Node / Python / Swift
+        // / Kotlin treat archived as a non-error terminal; PHP now
+        // matches.
+        [$client, $fake] = $this->makeClient();
+        $fake->enqueue(200, '{"data":{"step":3,"totalSteps":3,"status":"archived","message":""}}');
+        $event = $client->projects()->stream('p_1', fn () => null, interval: 0.005, maxWait: 5.0);
+        $this->assertSame('archived', $event['status']);
+    }
+
     public function test_max_wait_exceeded_throws_timeout(): void
     {
         [$client, $fake] = $this->makeClient();

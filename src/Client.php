@@ -16,7 +16,7 @@ namespace FloopFloop;
  */
 final class Client
 {
-    public const VERSION = '0.1.0-alpha.2';
+    public const VERSION = '0.1.0-alpha.3';
     private const DEFAULT_BASE_URL = 'https://www.floopfloop.com';
     private const DEFAULT_TIMEOUT = 30.0;
 
