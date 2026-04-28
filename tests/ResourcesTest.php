@@ -85,6 +85,26 @@ final class ResourcesTest extends TestCase
         $this->assertSame(12, $out['currentPeriod']['buildsUsed']);
     }
 
+    public function test_subscriptions_current_populated(): void
+    {
+        [$client, $fake] = $this->makeClient();
+        $fake->enqueue(200, '{"data":{"subscription":{"status":"active","billingPeriod":"monthly","currentPeriodStart":"2026-04-01T00:00:00Z","currentPeriodEnd":"2026-05-01T00:00:00Z","canceledAt":null,"planName":"pro","planDisplayName":"Pro","priceMonthly":29,"priceAnnual":290,"monthlyCredits":500,"maxProjects":50,"maxStorageMb":5000,"maxBandwidthMb":50000,"creditRolloverMonths":1,"features":{"teams":true}},"credits":{"current":423,"rolledOver":50,"total":473,"rolloverExpiresAt":"2026-05-01T00:00:00Z","lifetimeUsed":1234}}}');
+        $out = $client->subscriptions()->current();
+        $this->assertSame('pro', $out['subscription']['planName']);
+        $this->assertSame(500, $out['subscription']['monthlyCredits']);
+        $this->assertSame(473, $out['credits']['total']);
+        $this->assertStringEndsWith('/api/v1/subscriptions/current', $fake->requests[0]['url']);
+    }
+
+    public function test_subscriptions_current_both_null(): void
+    {
+        [$client, $fake] = $this->makeClient();
+        $fake->enqueue(200, '{"data":{"subscription":null,"credits":null}}');
+        $out = $client->subscriptions()->current();
+        $this->assertNull($out['subscription']);
+        $this->assertNull($out['credits']);
+    }
+
     public function test_api_keys_list_create_remove_by_name(): void
     {
         [$client, $fake] = $this->makeClient();
