@@ -16,7 +16,7 @@ namespace FloopFloop;
  */
 final class Client
 {
-    public const VERSION = '0.1.0-alpha.3';
+    public const VERSION = '0.1.0-alpha.4';
     private const DEFAULT_BASE_URL = 'https://www.floopfloop.com';
     private const DEFAULT_TIMEOUT = 30.0;
 
@@ -32,6 +32,7 @@ final class Client
     private ?Secrets $secrets = null;
     private ?Library $library = null;
     private ?Usage $usage = null;
+    private ?Subscriptions $subscriptions = null;
     private ?ApiKeys $apiKeys = null;
     private ?Uploads $uploads = null;
     private ?User $user = null;
@@ -76,6 +77,10 @@ final class Client
     public function usage(): Usage
     {
         return $this->usage ??= new Usage($this);
+    }
+    public function subscriptions(): Subscriptions
+    {
+        return $this->subscriptions ??= new Subscriptions($this);
     }
     public function apiKeys(): ApiKeys
     {
